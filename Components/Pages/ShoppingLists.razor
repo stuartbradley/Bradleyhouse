@@ -1,0 +1,64 @@
+﻿@using Microsoft.EntityFrameworkCore
+@using Weekly_Shopping.Data
+@using Weekly_Shopping.Data.Models
+
+@page "/ShoppingLists"
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" >
+    <MudList>
+        @foreach(var list in _shoppingLists)
+        {
+            <MudListItem Class="d-inline-flex">
+                <MudText >@list.DateCreated.ToString("dd-MM")</MudText>
+                <MudButton  OnClick="() => shoppingListSelected(list.Id)">Go To</MudButton>
+            </MudListItem>
+        }
+
+    </MudList>
+
+    <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="createShoppingList">Create New Shopping List</MudButton>
+</MudContainer>
+
+
+@code {
+    [Inject]
+    MealPlannerContext MealPlannerContext{ get; set; }
+
+    private List<ShoppingList> _shoppingLists = new();
+    [Inject]
+    NavigationManager Navigation { get; set; }
+
+
+    protected async override Task OnInitializedAsync()
+    {
+        _shoppingLists = await MealPlannerContext.ShoppingList.ToListAsync();
+    }
+
+    private void shoppingListSelected(int id)
+    {
+        Navigation.NavigateTo($"ShoppingList/{id}");
+    }
+
+    private async Task createShoppingList()
+    {
+        Random random = new();
+        var meals = await MealPlannerContext.Meals.ToListAsync();
+        var selectedMeals = new List<Meal>();
+        for (int i = 0; i <= 7; i++)
+        {
+            //TODO Make sure same meal isnt picked twice
+            selectedMeals.Add(meals[random.Next(0, meals.Count)]);
+        }
+
+        ShoppingList shoppingList = new ShoppingList()
+        {
+            Meals = selectedMeals.ToList(),
+        };
+
+        MealPlannerContext.ShoppingList.Add(shoppingList);
+        await MealPlannerContext.SaveChangesAsync();
+
+        _shoppingLists.Add(shoppingList);
+    }
+
+}

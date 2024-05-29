@@ -1,0 +1,39 @@
+﻿@page "/ShoppingList/{ShoppingListId:int}"
+@using Microsoft.EntityFrameworkCore
+@using Weekly_Shopping.Data
+@using Weekly_Shopping.Data.Models
+<MudList Class="d-flex flex-column flex-wrap align-content-start" Style="max-height:95vh; max-width:100vw;">
+@*         @foreach (var ingredient in _ingredients)
+        {
+            <MudListItem Style="width:20%">
+                <MudCheckBox Value="false" Label="@ingredient.ToString()"></MudCheckBox>
+            </MudListItem>    
+        } *@
+    </MudList>
+
+
+@code{
+    [Inject]
+    MealPlannerContext MealPlannerContext { get; set; }
+
+    [Parameter]
+    public int ShoppingListId { get; set; } = 0;
+    private List<Ingredient> _ingredients = new();
+
+    protected async override Task OnInitializedAsync()
+    {
+        var shoppingList = MealPlannerContext.ShoppingList.Include(x => x.Meals).ThenInclude(x => x.Ingredients).ThenInclude(x => x.Food).Single(x => x.Id == ShoppingListId);
+        foreach(var ingredient in shoppingList.Meals.SelectMany(x => x.Ingredients))
+        {
+        if (_ingredients.Any(x => x.FoodId == ingredient.FoodId))
+            {
+               _ingredients.Single(x => x.FoodId == ingredient.FoodId).Amount += ingredient.Amount;
+            }
+            else
+            {
+                _ingredients.Add(ingredient);
+
+            }
+        }
+    }
+}

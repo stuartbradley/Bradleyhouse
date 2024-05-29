@@ -1,0 +1,146 @@
+﻿@page "/add"
+@using Microsoft.EntityFrameworkCore
+@using Weekly_Shopping.Data
+@using Weekly_Shopping.Data.Models
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" >
+    <MudItem xs="12" sm="6" md="4">
+        <MudTextField Label="Meal Name" Variant="Variant.Outlined" @bind-Value="_mealName"></MudTextField>
+    </MudItem>
+    <MudGrid>
+    <MudItem xs="12" sm="6" md="2">
+        <MudAutocomplete @ref="foodMAC" T="string" Label="Food" SearchFunc="foodSearch"
+                            ResetValueOnEmptyText="@false" 
+                            CoerceText="@false" CoerceValue="@true" @bind-Value="_selectedFood" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+
+    </MudItem>
+    <MudItem md="2">
+            <MudNumericField Label="amount" @bind-Value="_amount"></MudNumericField>
+    </MudItem>
+    <MudItem xs="12" sm="6" md="2">
+            <MudAutocomplete @ref="measurementMAC" SelectValueOnTab="true"  T="string" Label="Measurement" @bind-Value="_selectedMeasurement" SearchFunc="@measurementSearch"
+                            ResetValueOnEmptyText="@resetValueOnEmptyText"                         
+                            AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+    </MudItem>
+    </MudGrid>
+    <MudItem md="6">
+        <MudButton Class="mt-4 mb-4" Color="Color.Primary" Variant="Variant.Filled" OnClick="addIngredient">Add Ingredient</MudButton>
+    </MudItem>
+        <MudList>
+            <h2>Ingredients</h2>
+            @foreach(var ingredient in _ingredients)
+            {
+            <MudListItem>@ingredient.ToString()<MudFab Style="margin-left:20px" StartIcon="@Icons.Material.Filled.Remove" Size="Size.Small" OnClick="() => remove(ingredient)" /></MudListItem>
+            }
+        </MudList>
+    <MudButton Class="mt-4" Color="Color.Primary" Variant="Variant.Filled" OnClick="submit">submit</MudButton>
+
+</MudContainer>
+
+
+
+@code {
+
+    int count = 0;
+    private MudAutocomplete<string> foodMAC;
+    private MudAutocomplete<string> measurementMAC;
+    private bool resetValueOnEmptyText = true;
+    string _mealName = "";
+    private string _selectedFood = "";
+    private string _selectedMeasurement = "";
+    private int _amount = 0;
+    private string[] _measurements =
+    {
+        "ml", "L", "g", "kg", "oz", "lb", "tsp","tbsp",
+    };
+
+    [Inject]
+    public MealPlannerContext MealPlannerContext { get; set; }
+    [Inject]
+    public ISnackbar Snackbar{ get; set; }
+
+    private List<Food> _foods = new();
+
+    private List<Ingredient> _ingredients = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _foods = await MealPlannerContext.Foods.ToListAsync();
+        StateHasChanged();
+    }
+
+    private void remove(Ingredient ingredient)
+    {
+        _ingredients.Remove(ingredient);
+    }
+
+    private async Task<IEnumerable<string>> measurementSearch(string value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return _measurements;
+        return _measurements.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+    }
+
+    private async Task<IEnumerable<string>> foodSearch(string food)
+    {
+        await Task.Delay(5);
+
+        // if text is null or empty, show complete list
+        if (string.IsNullOrEmpty(food))
+            return _foods.Select(x => x.Name);
+        return _foods.Where(x => x.Name.Contains(food, StringComparison.InvariantCultureIgnoreCase)).Select(x => x.Name);
+    }
+
+    private async Task addIngredient()
+    {
+        if (_selectedFood == "")
+            return;
+
+        if(!_foods.Any(x => x.Name == _selectedFood))
+        {
+            Food food = new Food()
+            {
+                Name = _selectedFood
+            };
+            MealPlannerContext.Add(food);
+            await MealPlannerContext.SaveChangesAsync();
+            _foods.Add(food);
+        }
+
+        Food selectedFood = _foods.Single(x => x.Name == _selectedFood);
+
+        var ingredient = new Ingredient()
+        {
+                FoodId = selectedFood.Id,
+                Food = selectedFood,
+                Amount = _amount,
+                Measurement = _selectedMeasurement
+        };
+        _ingredients.Add(ingredient);
+        _selectedMeasurement = "";
+        _selectedFood = "";
+        await foodMAC.Clear();
+        await measurementMAC.Clear();
+        _amount = 0;
+        await foodMAC.FocusAsync();
+    }
+
+    private async Task submit()
+    {
+        var meal = new Meal()
+        {
+            Ingredients = _ingredients,
+            Name = _mealName,
+        };
+
+        MealPlannerContext.Add(meal);
+        await MealPlannerContext.SaveChangesAsync();
+        Snackbar.Add($"{_mealName} Added", Severity.Success);
+        _mealName = "";
+        _ingredients = new();
+
+    }
+
+
+
+}

@@ -1,8 +1,11 @@
-using BradleyHouse.Data;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Hosting.StaticWebAssets;
+using Microsoft.EntityFrameworkCore;
+using MudBlazor;
 using MudBlazor.Services;
+using Weekly_Shopping.Data;
+using Weekly_Shopping.Data.ViewModels;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,8 +14,24 @@ StaticWebAssetsLoader.UseStaticWebAssets(builder.Environment, builder.Configurat
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddMudServices();
+
+builder.Services.AddMudServices(config =>
+{
+    config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.TopCenter;
+
+    config.SnackbarConfiguration.PreventDuplicates = true;
+    config.SnackbarConfiguration.NewestOnTop = false;
+    config.SnackbarConfiguration.ShowCloseIcon = true;
+    config.SnackbarConfiguration.VisibleStateDuration = 3000;
+    config.SnackbarConfiguration.HideTransitionDuration = 500;
+    config.SnackbarConfiguration.ShowTransitionDuration = 500;
+    config.SnackbarConfiguration.SnackbarVariant = Variant.Filled;
+});
+
+builder.Services.AddDbContext<MealPlannerContext>(
+    options => options.UseSqlServer(builder.Configuration.GetConnectionString("local")));
+builder.Services.AddTransient<ViewMealsViewModel>();
 
 var app = builder.Build();
 

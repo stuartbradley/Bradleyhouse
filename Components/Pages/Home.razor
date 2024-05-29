@@ -1,0 +1,21 @@
+﻿@page "/"
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" >
+    <MudItem md="4" Class="mb-6">
+        <MudDatePicker Label="Date From" @bind-Date="startDate" Class="object-left"></MudDatePicker>
+    </MudItem>
+    <MudItem md="4" Class="mb-6">
+        <MudNumericField Label="number of meals" @bind-Value="numberOfMeals"></MudNumericField>
+    </MudItem>
+    <MudItem md="4" Class="mb-6">
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="submit">Submit</MudButton>
+    </MudItem>
+</MudContainer>
+
+@code{
+    private DateTime? startDate = DateTime.Today;
+    int numberOfMeals = 0;
+
+    async Task submit(){
+
+    }
+}
