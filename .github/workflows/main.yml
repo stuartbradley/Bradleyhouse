@@ -1,4 +1,4 @@
-ouname: Deploy BradleyhouseApp
+name: Deploy BradleyhouseApp
 on:
   push:
     branches: ["main"]
