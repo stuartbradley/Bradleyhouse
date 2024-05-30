@@ -26,7 +26,7 @@ jobs:
         uses: talunzhang/auto-web-deploy@v1.0.1
         with:
           website-name: bradleyhouseapp.com
-          server-computer-name: https://bradleyhouseapp.com:8172/msdeploy.axd?site=bradleyhouseapp.com
+          server-computer-name: https://bradleyhouseapp.com:8172/
           server-username: bradley5
           server-password: Marvel1991!
-          source-path: 'httpdocs'
+          source-path: 'httpdocs/'
