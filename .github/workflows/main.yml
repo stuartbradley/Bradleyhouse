@@ -1,0 +1,34 @@
+name: Deploy BradleyhouseApp
+on:
+  push:
+    branches: ["master"]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get latest code and check
+        uses: actions/setup-dotnet3@v3
+
+      - name: Setup .net
+        uses: actions/setup-dotnet@v3
+        with: 
+          dotnet-version: 7.0.x
+
+      - name: restore Dependency
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore
+
+      - name: Publish
+        run: dotnet publish -c Release --output ./Release
+
+      - name: sync files (FTP Deploy)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ftp_host }}
+          username: ${{ secrets.ftp_username }}
+          password: ${{ secrets.password }}
+          load-dir: ./httpdocs
+      
+    
