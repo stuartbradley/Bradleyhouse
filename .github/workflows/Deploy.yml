@@ -29,4 +29,4 @@ jobs:
           server-computer-name: https://nl1-wss4.my-hosting-panel.com:8443
           server-username: bradley5
           server-password: Marvel1991!
-          source-path: './httpdocs'
+          source-path: 'httpdocs'
