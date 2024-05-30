@@ -21,7 +21,7 @@ jobs:
         run: dotnet build --no-restore
 
       - name: Publish
-        run: dotnet publish --configuration Release --no-restore --output ./publish --self-contained true --runtime win-x86 -p:PublishTrimmed=true
+        run:  dotnet publish -c Release --output ./Release
 
       - name: sync files (FTP Deploy)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -29,7 +29,7 @@ jobs:
           server: ${{ secrets.ftp_host }}
           username: ${{ secrets.ftp_username }}
           password: ${{ secrets.password }}
-          local-dir: ./publish/
+          local-dir: ./Release/
           server-dir: ./httpdocs/
           
       
