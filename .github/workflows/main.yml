@@ -1,4 +1,4 @@
-name: Deploy BradleyhouseApp
+ouname: Deploy BradleyhouseApp
 on:
   push:
     branches: ["main"]
@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Get latest code and check
-        uses: actions/setup-dotnet3@v3
+        uses: actions/setup-checkout@v4
 
       - name: Setup .net
         uses: actions/setup-dotnet@v3
