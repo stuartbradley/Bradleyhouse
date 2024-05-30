@@ -1,4 +1,6 @@
 name: Deploy BradleyhouseApp
+permissions:
+  contents: read
 on:
   push:
     branches: ["main"]
