@@ -9,6 +9,13 @@ jobs:
       - name: Get latest code and check
         uses: actions/checkout@v4
 
+      - name: edit connection string
+        uses: benday-inc/edit-dbconnstr-in-appsettings@main
+        with:
+          pathtosettingsfile: '${{ github.workspace }}/Bradleyhouse/appsettings.json'
+          name: "local"
+          connectionstring: "Server=(local); Database=demo123; Trusted_Connection=True;"
+
       - name: Setup .net
         uses: actions/setup-dotnet@v3
         with: 
