@@ -29,6 +29,24 @@ jobs:
 
       - name: Publish
         run:  dotnet publish -c Release --output ./Release
+        
+      - name: Add app_offline
+        uses: "finnp/create-file-action@master"
+        env:
+          FILE_NAME: "./stop_app/app_offline.htm"
+          
+      - name: Stop App
+        uses: SamKirkland/FTP-Deploy-Action@4.3.3
+        with:
+          # Deployment destination server & path. Formatted as protocol://domain.com:port/full/destination/path/
+          ftp-server: ${{ secrets.ftp_host }}
+          # FTP account username
+          username: ${{secrets.ftp_username }}
+          # FTP account password
+          password: ${{ secrets.password }}
+          # The local folder to copy, defaults to root project folder
+          local-dir: ./stop_app/
+          server-dir: ./httpdocs/
 
       - name: sync files (FTP Deploy)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -38,6 +56,16 @@ jobs:
           password: ${{ secrets.password }}
           local-dir: ./Release/
           server-dir: ./httpdocs/
-          
+
+      - name: Clean ReactJS precache-manifest and logs
+        uses: StephanThierry/ftp-delete-action@v2.1
+        with:
+          host: ${{ secrets.ftp_host }}
+          user: ${{ secrets.ftp_username }}
+          password: ${{ secrets.password }}
+          remoteFiles: "app_offline.htm"
+          workingDir: "./httpdocs/"
+
+            
       
     
