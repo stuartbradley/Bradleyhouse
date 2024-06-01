@@ -14,7 +14,7 @@ jobs:
         with:
           pathtosettingsfile: '${{ github.workspace }}/appsettings.json'
           name: "local"
-          connectionstring: "Server=(local); Database=demo123; Trusted_Connection=True;"
+          connectionstring: ${{ secrets.ConnectionString}}
 
       - name: Setup .net
         uses: actions/setup-dotnet@v3
