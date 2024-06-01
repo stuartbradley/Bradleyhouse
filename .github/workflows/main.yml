@@ -47,7 +47,7 @@ jobs:
           password: ${{ secrets.password }}
           # The local folder to copy, defaults to root project folder
           local-dir: ./stop_app/
-          server-dir: ./httpdocs/
+          server-dir: ./httpdocs/stop_app/
 
       - name: sync files (FTP Deploy)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -58,14 +58,7 @@ jobs:
           local-dir: ./Release/
           server-dir: ./httpdocs/
 
-      - name: Clean ReactJS precache-manifest and logs
-        uses: StephanThierry/ftp-delete-action@v2.1
-        with:
-          host: ${{ secrets.ftp_host }}
-          user: ${{ secrets.ftp_username }}
-          password: ${{ secrets.password }}
-          remoteFiles: "app_offline.htm"
-          workingDir: "./httpdocs/"
+
 
             
       
