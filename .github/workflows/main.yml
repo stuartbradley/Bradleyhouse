@@ -36,7 +36,7 @@ jobs:
           FILE_NAME: "./stop_app/app_offline.htm"
           
       - name: Stop App
-        uses: SamKirkland/FTP-Deploy-Action@4.3.5
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           # Deployment destination server & path. Formatted as protocol://domain.com:port/full/destination/path/
           server: ${{ secrets.ftp_host }}
