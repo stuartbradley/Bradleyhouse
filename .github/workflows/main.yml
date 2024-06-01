@@ -12,7 +12,7 @@ jobs:
       - name: edit connection string
         uses: benday-inc/edit-dbconnstr-in-appsettings@main
         with:
-          pathtosettingsfile: '${{ github.workspace }}/Bradleyhouse/appsettings.json'
+          pathtosettingsfile: '${{ github.workspace }}/appsettings.json'
           name: "local"
           connectionstring: "Server=(local); Database=demo123; Trusted_Connection=True;"
 
