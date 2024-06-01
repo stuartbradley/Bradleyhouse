@@ -38,6 +38,7 @@ jobs:
       - name: Stop App
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
+          state-name: ../.ftp-deploy-sync-state.json
           # Deployment destination server & path. Formatted as protocol://domain.com:port/full/destination/path/
           server: ${{ secrets.ftp_host }}
           # FTP account username
