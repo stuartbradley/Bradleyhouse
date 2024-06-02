@@ -20,6 +20,7 @@ jobs:
           host: ${{ secrets.ftp_host  }}
           src: ./stop_app/app_offline.htm
           dest: ./httpdocs/
+          secure: implicit 
           
       - name: Get latest code and check
         uses: actions/checkout@v4
