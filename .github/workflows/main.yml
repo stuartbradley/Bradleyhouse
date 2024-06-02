@@ -17,7 +17,7 @@ jobs:
         with:
           user: ${{ secrets.ftp_username }}
           password: ${{ secrets.password }}
-          host: ${{ secrets.ftp_username }}
+          host: ${{ secrets.ftp_host  }}
           src: ./stop_app/app_offline.htm
           dest: ./httpdocs/
           
