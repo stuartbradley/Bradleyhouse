@@ -6,21 +6,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-
-      - name: Add app_offline
-        uses: "finnp/create-file-action@master"
-        env:
-          FILE_NAME: "./stop_app/app_offline.htm"
-          
-      - name: Upload from public_html via FTP
-        uses: airvzxf/ftp-deployment-action@latest
-        with:
-          server: ${{ secrets.ftp_host }}
-          user: ${{ secrets.ftp_username }}
-          password: ${{ secrets.password }}
-          local_dir: "./stop_app"
-          remote_dir: "./httpdocs/" 
-          
       - name: Get latest code and check
         uses: actions/checkout@v4
 
@@ -44,6 +29,19 @@ jobs:
 
       - name: Publish
         run:  dotnet publish -c Release --output ./Release
+      - name: Add app_offline
+        uses: "finnp/create-file-action@master"
+        env:
+          FILE_NAME: "./stop_app/app_offline.htm"
+          
+      - name: Upload from public_html via FTP
+        uses: airvzxf/ftp-deployment-action@latest
+        with:
+          server: ${{ secrets.ftp_host }}
+          user: ${{ secrets.ftp_username }}
+          password: ${{ secrets.password }}
+          local_dir: "./stop_app"
+          remote_dir: "./httpdocs/" 
         
       - name: sync files (FTP Deploy)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
