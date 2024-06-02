@@ -43,6 +43,7 @@ jobs:
           password: ${{ secrets.password }}
           local_dir: ./stop_app/
           server_dir: ./httpdocs/ 
+          secure: false
         
       - name: sync files (FTP Deploy)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
