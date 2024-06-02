@@ -18,7 +18,7 @@ jobs:
           server: ${{ secrets.ftp_host }}
           user: ${{ secrets.ftp_username }}
           password: ${{ secrets.password }}
-          local_dir: "./stop_app/app_offline.htm"
+          local_dir: "./stop_app"
           remote_dir: "./httpdocs/" 
           
       - name: Get latest code and check
