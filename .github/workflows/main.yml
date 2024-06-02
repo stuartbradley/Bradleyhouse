@@ -35,7 +35,7 @@ jobs:
         env:
           FILE_NAME: "./stop_app/app_offline.htm"
           
-      - name: Stop App
+      - name: Stop App 
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           state-name: ../.ftp-deploy-sync-state.json
