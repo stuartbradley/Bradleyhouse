@@ -20,11 +20,6 @@ jobs:
           password: ${{ secrets.password }}
           local_dir: "./stop_app"
           remote_dir: "./httpdocs/" 
-
-      - name: Remove File
-        uses: JesseTG/rm@v1.0.3
-        with:
-          path: ./stop_app/app_offline.htm
           
       - name: Get latest code and check
         uses: actions/checkout@v4
