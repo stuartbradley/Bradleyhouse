@@ -15,9 +15,9 @@ jobs:
       - name: stop App
         uses: GenieTim/ftp-action@v4.0.1
         with:
-          host: ${{ secrets.FTP_SERVER }}
-          user: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
+          host: ${{ secrets.ftp_host }}
+          user: ${{ secrets.ftp_username }}
+          password: ${{ secrets.password }}
           localDir: "./stop_app/"
           remoteDir: "./httpdocs/"
           
