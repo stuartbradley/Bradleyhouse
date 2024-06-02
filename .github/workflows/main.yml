@@ -6,8 +6,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Get latest code and check
-        uses: actions/checkout@v4
 
       - name: Add app_offline
         uses: "finnp/create-file-action@master"
@@ -27,6 +25,11 @@ jobs:
           # The local folder to copy, defaults to root project folder
           local-dir: ./stop_app/
           server-dir: ./httpdocs/
+          
+      - name: Get latest code and check
+        uses: actions/checkout@v4
+
+     
 
       - name: edit connection string
         uses: benday-inc/edit-dbconnstr-in-appsettings@main
