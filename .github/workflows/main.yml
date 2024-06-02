@@ -58,6 +58,7 @@ jobs:
           host: ${{ secrets.ftp_host }}
           user: ${{ secrets.ftp_username }}
           password: ${{ secrets.password }}
+          ignoreSSL : 1
           remoteFiles: "app_offline.htm"
           workingDir: "./httpdocs/"
 
