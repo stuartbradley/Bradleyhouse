@@ -29,19 +29,21 @@ jobs:
 
       - name: Publish
         run:  dotnet publish -c Release --output ./Release
+        
       - name: Add app_offline
         uses: "finnp/create-file-action@master"
         env:
           FILE_NAME: "./stop_app/app_offline.htm"
           
-      - name: Upload from public_html via FTP
-        uses: airvzxf/ftp-deployment-action@latest
+      - name: Stop server
+        uses: dennisameling/ftp-upload-action@v1
         with:
           server: ${{ secrets.ftp_host }}
-          user: ${{ secrets.ftp_username }}
+          username: ${{ secrets.ftp_username }}
           password: ${{ secrets.password }}
-          local_dir: "./stop_app"
-          remote_dir: "./httpdocs/" 
+          local_dir: ./stop_app/
+          server_dir: ./httpdocs/ 
+          secure: false
         
       - name: sync files (FTP Deploy)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
