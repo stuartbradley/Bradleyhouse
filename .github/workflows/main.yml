@@ -13,14 +13,13 @@ jobs:
           FILE_NAME: "./stop_app/app_offline.htm"
           
       - name: Upload app_offline
-        uses: bayssmekanique/action-simple-file-upload@v2
+        uses: bayssmekanique/action-simple-file-upload@v2.2.0
         with:
           user: ${{ secrets.ftp_username }}
           password: ${{ secrets.password }}
           host: ${{ secrets.ftp_host  }}
           src: ./stop_app/app_offline.htm
           dest: ./httpdocs/
-          secure: true
           
       - name: Get latest code and check
         uses: actions/checkout@v4
