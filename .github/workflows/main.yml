@@ -47,7 +47,7 @@ jobs:
           password: ${{ secrets.password }}
           # The local folder to copy, defaults to root project folder
           local-dir: ./stop_app/
-          server-dir: ./httpdocs/stop_app/
+          server-dir: ./httpdocs/
 
       - name: sync files (FTP Deploy)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
