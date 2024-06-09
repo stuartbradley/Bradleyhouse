@@ -1,21 +1,35 @@
 ﻿@page "/"
-<MudContainer MaxWidth="MaxWidth.ExtraLarge" >
-    <MudItem md="4" Class="mb-6">
-        <MudDatePicker Label="Date From" @bind-Date="startDate" Class="object-left"></MudDatePicker>
-    </MudItem>
-    <MudItem md="4" Class="mb-6">
-        <MudNumericField Label="number of meals" @bind-Value="numberOfMeals"></MudNumericField>
-    </MudItem>
-    <MudItem md="4" Class="mb-6">
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="submit">Submit</MudButton>
-    </MudItem>
-</MudContainer>
+@using BradleyHouse.Services
+<MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Class="d-flex gap-10">
+    <MudPaper MinHeight="20vh" Class="pa-16 ma-2 flex-grow-1 blue Lighten-1">
+        <MudText Align="Align.Center" Style="color:whitesmoke" Typo=" Typo.h5">Number of Tasks</MudText>
+            <MudText Align="Align.Center" Style="color:whitesmoke" Typo="Typo.h1">29</MudText>
+    </MudPaper>
+    <MudPaper MinHeight="20vh" Class="pa-16 ma-2 flex-grow-1 red lighten-1">
+        <MudText Align="Align.Center" Style="color:whitesmoke"  Typo="Typo.h5">Lastest Shopping List</MudText>
+        <MudText Align="Align.Center" Style="color:whitesmoke" Typo="Typo.h1">07-June</MudText>
+    </MudPaper>
 
+    <MudPaper MinHeight="20vh" Class="pa-16 ma-2 flex-grow-1 lime lighten-1">
+        <MudText Align="Align.Center" Style="color:whitesmoke"  Typo="Typo.h5">5 Day Weather</MudText>
+        <MudIcon Icon="@Icons.Material.Filled.WbSunny" Style="font-size: 4rem;margin-right:1rem"  Title="Favorite" />
+        <MudIcon Icon="@Icons.Material.Filled.WbCloudy" Style="font-size: 4rem;margin-right:1rem" Title="Favorite" />
+        <MudIcon Icon="@Icons.Material.Filled.WindPower" Style="font-size: 4rem;margin-right:1rem" Title="Favorite" />
+        <MudIcon Icon="@Icons.Material.Filled.Thunderstorm" Style="font-size: 4rem;margin-right:1rem" Title="Favorite" />
+        <MudIcon Icon="@Icons.Material.Filled.Snowboarding" Style="font-size: 4rem;" Title="Favorite" />
+
+    </MudPaper>
+    <MudPaper MinHeight="20vh" Class="pa-16 ma-2 flex-grow-1 green lighten-1">
+        <MudText Align="Align.Center" Style="color:whitesmoke"  Typo="Typo.h5">Number of recipes</MudText>
+        <MudText Align="Align.Center" Style="color:whitesmoke" Typo="Typo.h1">71</MudText>
+    </MudPaper>
+
+@*     <MudImage Src=""
+ *@</MudContainer>
+
+
+@* 
 @code{
-    private DateTime? startDate = DateTime.Today;
-    int numberOfMeals = 0;
-
-    async Task submit(){
-
-    }
-}
+    @inject
+    CatService _catService 
+} *@

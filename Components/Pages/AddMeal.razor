@@ -65,7 +65,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _foods = await MealPlannerContext.Foods.ToListAsync();
+        _foods = await MealPlannerContext.Foods.OrderBy(x => x.Name).ToListAsync();
         StateHasChanged();
     }
 
@@ -83,8 +83,6 @@
 
     private async Task<IEnumerable<string>> foodSearch(string food)
     {
-        await Task.Delay(5);
-
         // if text is null or empty, show complete list
         if (string.IsNullOrEmpty(food))
             return _foods.Select(x => x.Name);

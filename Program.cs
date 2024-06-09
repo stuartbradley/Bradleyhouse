@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting.StaticWebAssets;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor;
 using MudBlazor.Services;
+using System;
 using Weekly_Shopping.Data;
 using Weekly_Shopping.Data.ViewModels;
 
@@ -36,6 +37,8 @@ builder.Services.AddMudServices(config =>
 
 builder.Services.AddDbContext<MealPlannerContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("local")));
+
+
 builder.Services.AddTransient<ViewMealsViewModel>();
 
 var app = builder.Build();
