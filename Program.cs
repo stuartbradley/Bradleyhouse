@@ -1,3 +1,4 @@
+using BradleyHouse.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Hosting.StaticWebAssets;
@@ -21,6 +22,7 @@ builder.Services.AddServerSideBlazor()
         options.HandshakeTimeout = TimeSpan.FromSeconds(30);
     });
 builder.Services.AddMudServices();
+builder.Services.AddTransient<CatService>();
 
 builder.Services.AddMudServices(config =>
 {

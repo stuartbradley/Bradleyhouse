@@ -2,12 +2,12 @@
 {
     public class CatService
     {
-        private string _baseUrl => "Cataas.com/cat";
+        private string _baseUrl => "www.Cataas.com/cat";
 
         public string GetHelloMessage()
         {
             string day = DateTime.Now.DayOfWeek.ToString();
-            return $"/says/Happy%20{day}?y?fontSize=30&fontColor=%23f0f0f0&fontBackground=none&position=bottom";
+            return $"https://cataas.com/cat/says/Happy%20{day}?font=Impact&fontSize=30&fontColor=%23f0f0f0&fontBackground=none&position=center&width=800&height=800";
         }
     }
 }
