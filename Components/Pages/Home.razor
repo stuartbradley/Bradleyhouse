@@ -2,34 +2,31 @@
 @using BradleyHouse.Services
 @inject CatService Catservice
 <MudContainer Fixed="true">
-    <div Class="d-flex flex-column flex-md-row gap-10">
-    <MudPaper MinHeight="20vh" Class="pa-16 ma-2 flex-grow-1 blue Lighten-1">
-        <MudText Align="Align.Center" Style="color:whitesmoke" Typo=" Typo.h5">Number of Tasks</MudText>
-            <MudText Align="Align.Center" Style="color:whitesmoke" Typo="Typo.h1">29</MudText>
-    </MudPaper>
-    <MudPaper MinHeight="20vh" Class="pa-16 ma-2 flex-grow-1 red lighten-1">
-        <MudText Align="Align.Center" Style="color:whitesmoke"  Typo="Typo.h5">Lastest Shopping List</MudText>
-        <MudText Align="Align.Center" Style="color:whitesmoke" Typo="Typo.h1">07-June</MudText>
-    </MudPaper>
+    <div Class="d-flex flex-column justify-center flex-md-row gap-10 flex-md-wrap">
+        <MudPaper MinHeight="20vh" Class="pa-16 ma-2 flex-grow-1 blue Lighten-1">
+            <MudText Align="Align.Center" Style="color:whitesmoke" Typo=" Typo.h5">Number of Tasks</MudText>
+                <MudText Align="Align.Center" Style="color:whitesmoke" Typo="Typo.h1">29</MudText>
+        </MudPaper>
+        <MudPaper MinHeight="20vh" Class="pa-16 ma-2 flex-grow-1 red lighten-1">
+            <MudText Align="Align.Center" Style="color:whitesmoke"  Typo="Typo.h5">Lastest Shopping List</MudText>
+            <MudText Align="Align.Center" Style="color:whitesmoke" Typo="Typo.h1">07-June</MudText>
+        </MudPaper>
 
-    <MudPaper MinHeight="20vh" Class="pa-16 ma-2 flex-grow-1 lime lighten-1">
-        <MudText Align="Align.Center" Style="color:whitesmoke"  Typo="Typo.h5">5 Day Weather</MudText>
-        <MudIcon Icon="@Icons.Material.Filled.WbSunny" Style="font-size: 4rem;margin-right:1rem"  Title="Favorite" />
-        <MudIcon Icon="@Icons.Material.Filled.WbCloudy" Style="font-size: 4rem;margin-right:1rem" Title="Favorite" />
-        <MudIcon Icon="@Icons.Material.Filled.WindPower" Style="font-size: 4rem;margin-right:1rem" Title="Favorite" />
-        <MudIcon Icon="@Icons.Material.Filled.Thunderstorm" Style="font-size: 4rem;margin-right:1rem" Title="Favorite" />
-        <MudIcon Icon="@Icons.Material.Filled.Snowboarding" Style="font-size: 4rem;" Title="Favorite" />
-    </MudPaper>
-    <MudPaper MinHeight="20vh" Class="pa-16 ma-2 flex-grow-1 green lighten-1">
-        <MudText Align="Align.Center" Style="color:whitesmoke"  Typo="Typo.h5">Number of recipes</MudText>
-        <MudText Align="Align.Center" Style="color:whitesmoke" Typo="Typo.h1">71</MudText>
-    </MudPaper>
-    </div>
-    <div class="d-flex justify-center">
-        <MudImage src="@Catservice.GetHelloMessage()" ObjectPosition="ObjectPosition.Center" />
+        <MudPaper MinHeight="20vh" Class="pa-16 ma-2 flex-grow-1 lime lighten-1">
+            <MudText Align="Align.Center" Style="color:whitesmoke"  Typo="Typo.h5">5 Day Weather</MudText>
+            <MudIcon Icon="@Icons.Material.Filled.WbSunny" Style="font-size: 4rem;margin-right:1rem"  Title="Favorite" />
+            <MudIcon Icon="@Icons.Material.Filled.WbCloudy" Style="font-size: 4rem;margin-right:1rem" Title="Favorite" />
+            <MudIcon Icon="@Icons.Material.Filled.WindPower" Style="font-size: 4rem;margin-right:1rem" Title="Favorite" />
+            <MudIcon Icon="@Icons.Material.Filled.Thunderstorm" Style="font-size: 4rem;margin-right:1rem" Title="Favorite" />
+            <MudIcon Icon="@Icons.Material.Filled.Snowboarding" Style="font-size: 4rem;" Title="Favorite" />
+        </MudPaper>
+        <MudPaper MinHeight="20vh" Class="pa-16 ma-2 flex-grow-1 green lighten-1">
+            <MudText Align="Align.Center" Style="color:whitesmoke"  Typo="Typo.h5">Number of recipes</MudText>
+            <MudText Align="Align.Center" Style="color:whitesmoke" Typo="Typo.h1">71</MudText>
+        </MudPaper>
+        <MudImage Fluid="true" src=" @Catservice.GetHelloMessage()" Class="ma-2 pa-2 align-self-center" />
 
     </div>
-
 </MudContainer>
 
 
