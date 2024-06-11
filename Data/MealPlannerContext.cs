@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Weekly_Shopping.Data.Models;
+﻿using BradleyHouse.Data.Models.MealPrep;
+using Microsoft.EntityFrameworkCore;
 
 namespace Weekly_Shopping.Data
 {

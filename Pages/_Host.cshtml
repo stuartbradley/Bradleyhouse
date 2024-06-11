@@ -4,7 +4,23 @@
 @{
     Layout = "_Layout";
 }
-
+<div id="components-reconnect-modal" class="my-reconnect-modal components-reconnect-hide">
+    <div class="show">
+        <p>
+            Reconnecting!
+        </p>
+    </div>
+    <div class="failed">
+        <p>
+            // Message when failing to connect
+        </p>
+    </div>
+    <div class="rejected">
+        <p>
+            // Message when refused
+        </p>
+    </div>
+    </div>
 <component type="typeof(App)" render-mode="ServerPrerendered" />
 
 <div id="reconnect-modal" style="display: none;"></div>

@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Weekly_Shopping.Data.Models;
+﻿using BradleyHouse.Data.Models.MealPrep;
+using Microsoft.EntityFrameworkCore;
 using static MudBlazor.Colors;
 
 //make this work like a real viewmodel. Expose Values

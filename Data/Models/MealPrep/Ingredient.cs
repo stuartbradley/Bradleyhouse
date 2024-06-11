@@ -1,4 +1,4 @@
-﻿namespace Weekly_Shopping.Data.Models
+﻿namespace BradleyHouse.Data.Models.MealPrep
 {
     public class Ingredient
     {
@@ -10,7 +10,7 @@
 
         public override string ToString()
         {
-            if(Amount == 1 && Measurement == "")
+            if (Amount == 1 && Measurement == "")
                 return $"{Food.Name}";
             else
                 return $"{Food.Name} - {Amount.ToString("0.#")}{Measurement}";

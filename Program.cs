@@ -15,12 +15,7 @@ StaticWebAssetsLoader.UseStaticWebAssets(builder.Environment, builder.Configurat
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddServerSideBlazor()
-    .AddHubOptions(options =>
-    {
-        options.ClientTimeoutInterval = TimeSpan.FromSeconds(60);
-        options.HandshakeTimeout = TimeSpan.FromSeconds(30);
-    });
+builder.Services.AddServerSideBlazor();
 builder.Services.AddMudServices();
 builder.Services.AddTransient<CatService>();
 
@@ -43,8 +38,16 @@ builder.Services.AddDbContext<MealPlannerContext>(
 
 builder.Services.AddTransient<ViewMealsViewModel>();
 
-var app = builder.Build();
 
+
+var app = builder.Build();
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<MealPlannerContext>();
+    context.Database.Migrate();
+}
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

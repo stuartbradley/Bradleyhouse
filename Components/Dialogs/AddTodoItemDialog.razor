@@ -1,0 +1,27 @@
+﻿@using BradleyHouse.Components.Dialogs.Models
+<MudDialog Style="background-color:#D3D3D3">
+    <DialogContent>
+        <MudForm Model="model">
+            <MudTextField @bind-Value="model.Title" Variant="Variant.Outlined" />
+            <MudTextField @bind-Value="model.Description" Variant="Variant.Outlined" />
+            <MudDatePicker Label="Deadline" Editable="true" @bind-Date="model.Deadline" />
+            <MudNumericField @bind-Value="model.EstimatedTimeToComplete" />
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Submit</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    public AddTodoItemDialogModel model = new();
+
+    void Submit()
+    {
+        MudDialog.Close<AddTodoItemDialogModel>(model);
+    }
+    void Cancel() => MudDialog.Cancel();
+}

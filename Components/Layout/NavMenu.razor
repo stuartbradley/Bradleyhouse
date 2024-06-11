@@ -1,8 +1,14 @@
 ﻿<MudNavMenu Margin="Margin.Normal">
     <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home" >Home</MudNavLink>
-    <MudNavLink Href="add" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Add Meal</MudNavLink>
-    <MudNavLink Href="shoppingLists" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.EmojiFoodBeverage">Shopping Lists</MudNavLink>
-    <MudNavLink Href="ViewMeals" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.FoodBank">All Meals</MudNavLink>
-
+    <MudNavGroup Title="Food" Expanded="false" Icon="@Icons.Material.Filled.FoodBank">
+        <MudNavLink Href="add" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Add Meal</MudNavLink>
+        <MudNavLink Href="shoppingLists" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.EmojiFoodBeverage">Shopping Lists</MudNavLink>
+        <MudNavLink Href="ViewMeals" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.FoodBank">All Meals</MudNavLink>
+    </MudNavGroup>
+    <MudNavGroup Title="ToDo" Expanded="false" Icon="@Icons.Material.Filled.Task">
+        <MudNavLink Href="Todo" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.AddTask">Add Task</MudNavLink>
+        <MudNavLink Href="shoppingLists" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.EmojiFoodBeverage">Shopping Lists</MudNavLink>
+        <MudNavLink Href="ViewMeals" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.FoodBank">All Meals</MudNavLink>
+    </MudNavGroup>
 </MudNavMenu>
 

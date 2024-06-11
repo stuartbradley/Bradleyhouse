@@ -1,7 +1,21 @@
-﻿@* <MudDropContainer T="DropItem" Items="_items" ItemsSelector="@((item, dropzone) => item.Identifier == dropzone)" ItemDropped="Itemupdated" Class="d-flex flex-wrap flex-grow-1">
-<ChildContent>
-    <MudDropZone T="DropItem" Identifier="ToDo" Class="rounded mud-background-gray pa-6 ma-8 flex-grow 1">
-        <MudText Typo="Typo.h6" Class="mb-4">To-DO</MudText>
-    </MudDropZone>
-</ChildContent>
-</MudDropContainer> *@
+﻿@page "/Todo"
+@using BradleyHouse.Components.Dialogs
+@inject IDialogService DialogService
+
+<MudContainer Fixed="true">
+    <MudTextField @bind-Value="_textValue" Label="Outlined" Variant="Variant.Outlined" Adornment="Adornment.End" OnAdornmentClick="openCreateTodoItemDialog" AdornmentIcon="@Icons.Material.Filled.AddCircleOutline" />
+</MudContainer>
+
+@code{
+    private string _textValue = "";
+
+    private async Task openCreateTodoItemDialog(){
+        DialogOptions dialogOptions = new DialogOptions() { CloseOnEscapeKey = true, Position = DialogPosition.TopCenter, MaxWidth = MaxWidth.Medium, FullWidth = true };
+        var dialog = await DialogService.ShowAsync<AddTodoItemDialog>("Add Item",dialogOptions);
+        var result = await dialog.Result;
+        if (!result.Canceled)
+        {
+            var returnedData = await dialog.GetReturnValueAsync<AddTodoItemDialog>();
+        }
+    }
+}

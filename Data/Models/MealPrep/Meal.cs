@@ -1,4 +1,4 @@
-﻿namespace Weekly_Shopping.Data.Models
+﻿namespace BradleyHouse.Data.Models.MealPrep
 {
     public class Meal
     {
