@@ -19,10 +19,4 @@
     <PackageReference Include="StatefulReconnection" Version="0.1.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Update="wwwroot\boot.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
 </Project>

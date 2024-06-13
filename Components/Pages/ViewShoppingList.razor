@@ -3,7 +3,8 @@
 @using Microsoft.EntityFrameworkCore
 @using Weekly_Shopping.Data
 
-<MudList Class="d-flex flex-column flex-wrap align-content-start" Style="max-height:95vh; max-width:100vw;">
+<MudContainer Fixed="true">
+    <MudList Class="d-flex flex-column flex-wrap align-content-start" Style="max-height:95vh; max-width:100vw;">
         @foreach (var ingredient in _ingredients)
         {
             <MudListItem Style="width:20%">
@@ -11,7 +12,7 @@
             </MudListItem>    
         }
     </MudList>
-
+</MudContainer>
 
 @code{
     [Inject]

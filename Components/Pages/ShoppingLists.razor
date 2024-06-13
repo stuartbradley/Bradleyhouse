@@ -3,7 +3,7 @@
 @using Microsoft.EntityFrameworkCore
 @using Weekly_Shopping.Data
 
-<MudContainer MaxWidth="MaxWidth.ExtraLarge" >
+<MudContainer Fixed="true">
     <MudList>
         @foreach(var list in _shoppingLists)
         {
@@ -14,7 +14,6 @@
         }
 
     </MudList>
-
     <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="createShoppingList">Create New Shopping List</MudButton>
 </MudContainer>
 
