@@ -1,7 +1,7 @@
 ﻿@inherits LayoutComponentBase
-<MudThemingProvider />
-<MudThemeProvider/>
-<MudDialogProvider/>
+<MudThemingProvider  />
+<MudThemeProvider Theme="_theme" />
+<MudDialogProvider />
 <MudSnackbarProvider/>
 <MudLayout>
     <MudAppBar Elevation="1">
@@ -22,4 +22,17 @@
     {
         _drawerOpen = !_drawerOpen;
     }
+    private bool _isDarkMode = true;
+
+    private MudTheme _theme = new()
+        {
+            Palette = new Palette()
+            {
+                Background = "#f2f2f2",
+                Surface = "#f2f2f2",
+                PrimaryContrastText = "#f2f2f2",
+                LinesInputs = "#000000"
+            },
+        };
+
 }

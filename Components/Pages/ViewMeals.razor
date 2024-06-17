@@ -13,33 +13,35 @@
 else
 {
     <MudContainer Fixed="true">
-            <MudItem xs="12" sm="6" md="4" >
-                <MudTextField T="string" Immediate="true" ValueChanged="ViewModel.searchChanged" Label="Search" Variant="Variant.Outlined" ></MudTextField>
+        <MudItem xs="12" sm="6" md="4" Class="mb-4">
+            <MudTextField ShrinkLabel T="string" Immediate="true" ValueChanged="ViewModel.searchChanged" Label="Search" Variant="Variant.Outlined"></MudTextField>
             </MudItem>
-            <MudItem xs="12" sm="6" md="4">
+            <MudItem xs="12" sm="6" md="4" Class="mb-4">
                 <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@ViewModel.CreateShoppingList">Create Shopping List</MudButton>
             </MudItem>
-            <MudItem xs="12" sm="6" md="4">
+        <MudItem xs="12" sm="6" md="4" Class="mb-4">
                 <MudSlider Min="1" Max="12" @bind-Value="@ViewModel.Servings" Color="Color.Info">Servings: @ViewModel.Servings</MudSlider>
             </MudItem>
 
-        <MudGrid>
+        <MudGrid Spacing="2">
             @foreach (var meal in ViewModel.FilteredList)
             {
-                <MudItem md="3">
-                    <MudCard>
-                        <MudCardHeader>
+                <MudItem xs="12" md="4" lg="3" Class="d-flex justify-center">
+                    <MudCard Outlined="true" Class="border-4 mx-5 d-flex flex-column justify-space-between" Style="min-width:100%; min-height:200px;">
+                        <MudCardHeader >
                             <CardHeaderContent>
                                 @if(meal.StockCount > 0)
                                 {
-                                    <MudText Typo="Typo.h6">@meal.Name (@meal.StockCount)</MudText>
+                                    <MudText Align="Align.Center" Typo="Typo.h6">@meal.Name (@meal.StockCount)</MudText>
                                 }
                                 else
                                 {
-                                    <MudText Typo="Typo.h6">@meal.Name</MudText>
+                                    <MudText Align="Align.Center" Typo="Typo.h6">@meal.Name</MudText>
                                 }
                             </CardHeaderContent>
-                            <CardHeaderActions>
+                        </MudCardHeader>
+                        <MudCardContent>
+                            <MudCardActions Class="d-flex justify-space-between">
                                 <MudCheckBox @bind-Checked="@meal.Selected" />
                                 <MudIconButton OnClick="() => ViewModel.deleteMeal(meal.Id)" Icon="@Icons.Material.Filled.Delete" Color="Color.Default" />
                                 <MudIconButton OnClick="() => ViewModel.ViewMeal(meal)" Icon="@Icons.Material.Filled.ArrowDropDownCircle" Color="Color.Default" />
@@ -47,23 +49,23 @@ else
                                  @if(meal.StockCount > 0){
                                     <MudIconButton OnClick="() => meal.removeOneFromStock()" Icon="@Icons.Material.Filled.Remove" Color="Color.Default" />
                                  }
-
-                            </CardHeaderActions>
-                        </MudCardHeader>
+                            </MudCardActions>
                         @if (meal.ViewMeal)
                         {
-                            <MudCardContent>
+
                                 <MudList>
                                     @foreach (var ingredient in meal.Ingredients)
                                     {
                                         <MudListItem Text="@ingredient.ToString()" Icon="@Icons.Custom.Uncategorized.FoodApple"/>
                                     }
                                 </MudList>
-                            </MudCardContent>
                         }
+                        </MudCardContent>
+
                     </MudCard>
                 </MudItem>
             }
         </MudGrid>
     </MudContainer>
 }
+
