@@ -1,4 +1,4 @@
-﻿namespace BradleyHouse.Components.Dialogs.Models
+﻿namespace BradleyHouse.Components.Dialogs.Models.Todo
 {
     public class AddTodoItemDialogModel
     {

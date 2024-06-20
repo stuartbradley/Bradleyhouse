@@ -19,9 +19,4 @@
     <PackageReference Include="StatefulReconnection" Version="0.1.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Components\Dialogs\Models\Food\" />
-    <Folder Include="Components\Dialogs\Models\Todo\" />
-  </ItemGroup>
-
 </Project>

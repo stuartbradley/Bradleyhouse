@@ -1,14 +1,18 @@
 ﻿@page "/ViewMeals"
 
+@using BradleyHouse.Components.Dialogs.Models.Food
+@using BradleyHouse.Data.Models.MealPrep
 @using Microsoft.EntityFrameworkCore
 @using Weekly_Shopping.Data
 @using Weekly_Shopping.Data.ViewModels
 @inject ViewMealsViewModel ViewModel
+@inject IDialogService DialogService
 
 
 @if (ViewModel.FilteredList == null)
-{   
-    <p>Loading...</p>
+{
+    <MudProgressCircular Color="Color.Primary" Style="height:100%;width:100%;" Indeterminate="true" />
+
 }
 else
 {
@@ -22,7 +26,6 @@ else
         <MudItem xs="12" sm="6" md="4" Class="mb-4">
                 <MudSlider Min="1" Max="12" @bind-Value="@ViewModel.Servings" Color="Color.Info">Servings: @ViewModel.Servings</MudSlider>
             </MudItem>
-
         <MudGrid Spacing="2">
             @foreach (var meal in ViewModel.FilteredList)
             {
@@ -32,36 +35,30 @@ else
                             <CardHeaderContent>
                                 @if(meal.StockCount > 0)
                                 {
+                                   
                                     <MudText Align="Align.Center" Typo="Typo.h6">@meal.Name (@meal.StockCount)</MudText>
+                                    <MudCheckBox @bind-Checked="@meal.Selected" />
                                 }
                                 else
                                 {
-                                    <MudText Align="Align.Center" Typo="Typo.h6">@meal.Name</MudText>
+                                    <div class="d-flex justify-center align-center gap-2">
+                                        <MudText Align="Align.Center" Typo="Typo.h6">@meal.Name</MudText>
+                                        <MudCheckBox @bind-Checked="@meal.Selected" />
+                                    </div>
+
                                 }
                             </CardHeaderContent>
                         </MudCardHeader>
                         <MudCardContent>
                             <MudCardActions Class="d-flex justify-space-between">
-                                <MudCheckBox @bind-Checked="@meal.Selected" />
                                 <MudIconButton OnClick="() => ViewModel.deleteMeal(meal.Id)" Icon="@Icons.Material.Filled.Delete" Color="Color.Default" />
-                                <MudIconButton OnClick="() => ViewModel.ViewMeal(meal)" Icon="@Icons.Material.Filled.ArrowDropDownCircle" Color="Color.Default" />
                                 <MudIconButton OnClick="() => meal.addOneToStock()" Icon="@Icons.Material.Filled.PlusOne" Color="Color.Default" />
                                  @if(meal.StockCount > 0){
                                     <MudIconButton OnClick="() => meal.removeOneFromStock()" Icon="@Icons.Material.Filled.Remove" Color="Color.Default" />
                                  }
+                                 <MudIconButton OnClick="(e) => openIngredients(meal)" Icon="@Icons.Custom.Uncategorized.FoodApple" Color="Color.Default" />
                             </MudCardActions>
-                        @if (meal.ViewMeal)
-                        {
-
-                                <MudList>
-                                    @foreach (var ingredient in meal.Ingredients)
-                                    {
-                                        <MudListItem Text="@ingredient.ToString()" Icon="@Icons.Custom.Uncategorized.FoodApple"/>
-                                    }
-                                </MudList>
-                        }
                         </MudCardContent>
-
                     </MudCard>
                 </MudItem>
             }
@@ -69,3 +66,14 @@ else
     </MudContainer>
 }
 
+@code{
+
+    private async Task openIngredients(MealModel model)
+    {
+        var parameters = new DialogParameters<ViewIngredients> { { x => x.Ingredients, model.Ingredients.ToList() } };
+
+        DialogOptions dialogOptions = new DialogOptions() { CloseOnEscapeKey = true,Position = DialogPosition.Center, MaxWidth = MaxWidth.Medium, FullWidth = true };
+        var dialog = await DialogService.ShowAsync<ViewIngredients>("Ingredients",parameters ,dialogOptions);
+
+    }
+}
