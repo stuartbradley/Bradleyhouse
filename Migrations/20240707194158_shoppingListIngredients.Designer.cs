@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Weekly_Shopping.Data;
 
@@ -11,9 +12,11 @@ using Weekly_Shopping.Data;
 namespace Weekly_Shopping.Migrations
 {
     [DbContext(typeof(MealPlannerContext))]
-    partial class MealPlannerContextModelSnapshot : ModelSnapshot
+    [Migration("20240707194158_shoppingListIngredients")]
+    partial class shoppingListIngredients
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -115,26 +118,20 @@ namespace Weekly_Shopping.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("FoodId")
+                    b.Property<int>("IngredientId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Measurement")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Picked")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ShoppingListId")
+                    b.Property<int?>("ShoppingListMealId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FoodId");
+                    b.HasIndex("IngredientId");
 
-                    b.HasIndex("ShoppingListId");
+                    b.HasIndex("ShoppingListMealId");
 
                     b.ToTable("ShoppingListIngredient");
                 });
@@ -150,14 +147,24 @@ namespace Weekly_Shopping.Migrations
                     b.Property<int>("MealId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ShoppingListId")
+                    b.HasKey("Id");
+
+                    b.ToTable("ShoppingListMeal");
+                });
+
+            modelBuilder.Entity("ShoppingListShoppingListMeal", b =>
+                {
+                    b.Property<int>("MealsId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<int>("ShoppingListId")
+                        .HasColumnType("int");
+
+                    b.HasKey("MealsId", "ShoppingListId");
 
                     b.HasIndex("ShoppingListId");
 
-                    b.ToTable("ShoppingListMeal");
+                    b.ToTable("ShoppingListShoppingListMeal");
                 });
 
             modelBuilder.Entity("BradleyHouse.Data.Models.MealPrep.Ingredient", b =>
@@ -177,24 +184,32 @@ namespace Weekly_Shopping.Migrations
 
             modelBuilder.Entity("BradleyHouse.Data.Models.MealPrep.ShoppingListIngredient", b =>
                 {
-                    b.HasOne("BradleyHouse.Data.Models.MealPrep.Food", "Food")
+                    b.HasOne("BradleyHouse.Data.Models.MealPrep.Ingredient", "Ingredient")
                         .WithMany()
-                        .HasForeignKey("FoodId")
+                        .HasForeignKey("IngredientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BradleyHouse.Data.Models.MealPrep.ShoppingListMeal", null)
+                        .WithMany("Ingredients")
+                        .HasForeignKey("ShoppingListMealId");
+
+                    b.Navigation("Ingredient");
+                });
+
+            modelBuilder.Entity("ShoppingListShoppingListMeal", b =>
+                {
+                    b.HasOne("BradleyHouse.Data.Models.MealPrep.ShoppingListMeal", null)
+                        .WithMany()
+                        .HasForeignKey("MealsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BradleyHouse.Data.Models.MealPrep.ShoppingList", null)
-                        .WithMany("Ingredients")
-                        .HasForeignKey("ShoppingListId");
-
-                    b.Navigation("Food");
-                });
-
-            modelBuilder.Entity("BradleyHouse.Data.Models.MealPrep.ShoppingListMeal", b =>
-                {
-                    b.HasOne("BradleyHouse.Data.Models.MealPrep.ShoppingList", null)
-                        .WithMany("Meals")
-                        .HasForeignKey("ShoppingListId");
+                        .WithMany()
+                        .HasForeignKey("ShoppingListId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BradleyHouse.Data.Models.MealPrep.Meal", b =>
@@ -202,11 +217,9 @@ namespace Weekly_Shopping.Migrations
                     b.Navigation("Ingredients");
                 });
 
-            modelBuilder.Entity("BradleyHouse.Data.Models.MealPrep.ShoppingList", b =>
+            modelBuilder.Entity("BradleyHouse.Data.Models.MealPrep.ShoppingListMeal", b =>
                 {
                     b.Navigation("Ingredients");
-
-                    b.Navigation("Meals");
                 });
 #pragma warning restore 612, 618
         }

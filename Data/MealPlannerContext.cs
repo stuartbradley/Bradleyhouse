@@ -16,9 +16,7 @@ namespace Weekly_Shopping.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ShoppingList>()
-                .HasMany(e => e.Meals)
-                .WithMany();
+
             base.OnModelCreating(modelBuilder);
         }
 

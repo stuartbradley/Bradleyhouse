@@ -1,5 +1,6 @@
 ﻿using BradleyHouse.Data.Models.MealPrep;
 using Microsoft.EntityFrameworkCore;
+using System.Numerics;
 using static MudBlazor.Colors;
 
 //make this work like a real viewmodel. Expose Values
@@ -56,15 +57,38 @@ namespace Weekly_Shopping.Data.ViewModels
 
         public void CreateShoppingList()
         {
+
+            Dictionary<int, ShoppingListIngredient> ingredients = new();
+
+            foreach (var ingredient in _meals.Where(x => x.Selected).SelectMany(x => x.Ingredients))
+            {
+                if (ingredients.ContainsKey(ingredient.FoodId))
+                {
+                    ingredients[ingredient.FoodId].Amount += ingredient.Amount;
+                }
+                else
+                {
+                    ingredients[ingredient.FoodId] = new ShoppingListIngredient()
+                    {
+                        Amount = ingredient.Amount,
+                        FoodId = ingredient.FoodId,
+                        Measurement = ingredient.Measurement,
+                        Picked = false,
+                    };
+                }
+
+
+            }
+
             ShoppingList shoppingList = new ShoppingList()
             {
-                Meals = new List<Meal>()
+                DateCreated = DateTime.Now,
+                Meals = _meals.Select(x => new ShoppingListMeal()
+                {
+                    MealId = x.Id,
+                }).ToList(),
+                Ingredients = ingredients.Values.ToList()
             };
-
-            foreach (var meal in _meals.Where(x => x.Selected)) 
-            { 
-                shoppingList.Meals.Add(_mealPlannerContext.Find<Meal>(meal.Id));    
-            }
 
             _mealPlannerContext.Add(shoppingList);
             _mealPlannerContext.SaveChanges();

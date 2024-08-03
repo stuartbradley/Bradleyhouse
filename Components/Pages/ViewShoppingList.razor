@@ -4,11 +4,11 @@
 @using Weekly_Shopping.Data
 
 <MudContainer Fixed="true">
-    <MudList Class="d-flex flex-column flex-wrap align-content-start" Style="max-height:95vh; max-width:100vw;">
+    <MudList Class="d-flex flex-column flex-wrap align-content-start" Style="max-height:90vh; max-width:100vw;">
         @foreach (var ingredient in _ingredients)
         {
             <MudListItem Style="width:20%">
-                <MudCheckBox Value="false" Label="@ingredient.ToString()"></MudCheckBox>
+                <MudCheckBox Size="Size.Large" Value="@ingredient.Picked" T="bool" ValueChanged="@((value) => ingredientChanged(ingredient, value))" Label="@ingredient.ToString()"></MudCheckBox>
             </MudListItem>    
         }
     </MudList>
@@ -20,22 +20,19 @@
 
     [Parameter]
     public int ShoppingListId { get; set; } = 0;
-    private List<Ingredient> _ingredients = new();
+    private List<ShoppingListIngredient> _ingredients = new();
 
     protected async override Task OnInitializedAsync()
     {
-        var shoppingList = MealPlannerContext.ShoppingList.Include(x => x.Meals).ThenInclude(x => x.Ingredients).ThenInclude(x => x.Food).Single(x => x.Id == ShoppingListId);
-        foreach(var ingredient in shoppingList.Meals.SelectMany(x => x.Ingredients))
-        {
-        if (_ingredients.Any(x => x.FoodId == ingredient.FoodId))
-            {
-               _ingredients.Single(x => x.FoodId == ingredient.FoodId).Amount += ingredient.Amount;
-            }
-            else
-            {
-                _ingredients.Add(ingredient);
-
-            }
-        }
+        var shoppingList = await MealPlannerContext.ShoppingList.Include(x => x.Ingredients).ThenInclude(x => x.Food).SingleAsync(x => x.Id == ShoppingListId);
+        _ingredients = shoppingList.Ingredients;
     }
+
+    private async Task ingredientChanged(ShoppingListIngredient ingredient, bool value)
+    {
+        ingredient.Picked = value;
+        MealPlannerContext.Update(ingredient);
+        await MealPlannerContext.SaveChangesAsync(value);
+    }
+
 }
