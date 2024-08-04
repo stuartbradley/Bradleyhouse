@@ -82,6 +82,7 @@ namespace Weekly_Shopping.Data.ViewModels
 
             ShoppingList shoppingList = new ShoppingList()
             {
+                Name = DateTime.Now.ToString(),
                 DateCreated = DateTime.Now,
                 Meals = _meals.Select(x => new ShoppingListMeal()
                 {
