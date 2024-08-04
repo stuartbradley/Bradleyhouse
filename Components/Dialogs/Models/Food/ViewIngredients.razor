@@ -1,6 +1,9 @@
 ﻿@using BradleyHouse.Data.Models.MealPrep
 <MudDialog Style="background-color:#D3D3D3">
-    <DialogContent>
+    <TitleContent>
+        @MealName
+    </TitleContent>
+    <DialogContent >
         <MudList>
             @foreach (var ingredient in Ingredients)
             {
@@ -12,6 +15,8 @@
 @code{
     [Parameter]
     public List<Ingredient> Ingredients { get; set; }
+    [Parameter]
+    public string MealName{ get; set; }
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
     void Cancel() => MudDialog.CancelAll();

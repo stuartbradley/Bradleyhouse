@@ -70,7 +70,8 @@ else
 
     private async Task openIngredients(MealModel model)
     {
-        var parameters = new DialogParameters<ViewIngredients> { { x => x.Ingredients, model.Ingredients.ToList() } };
+        var parameters = new DialogParameters<ViewIngredients> { { x => x.Ingredients, model.Ingredients.ToList() }, { x => x.MealName, model.Name} };
+
 
         DialogOptions dialogOptions = new DialogOptions() { CloseOnEscapeKey = true,Position = DialogPosition.Center, MaxWidth = MaxWidth.Medium, FullWidth = true };
         var dialog = await DialogService.ShowAsync<ViewIngredients>("Ingredients",parameters ,dialogOptions);
