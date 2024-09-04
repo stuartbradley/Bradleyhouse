@@ -84,7 +84,7 @@ namespace Weekly_Shopping.Data.ViewModels
             {
                 Name = DateTime.Now.ToString(),
                 DateCreated = DateTime.Now,
-                Meals = _meals.Select(x => new ShoppingListMeal()
+                Meals = _meals.Where(x => x.Selected).Select(x => new ShoppingListMeal()
                 {
                     MealId = x.Id,
                 }).ToList(),

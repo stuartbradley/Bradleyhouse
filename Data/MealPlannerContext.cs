@@ -25,5 +25,6 @@ namespace Weekly_Shopping.Data
         public DbSet<Ingredient> Ingredients { get; set;}
         public DbSet<Food> Foods { get; set; }
         public DbSet<ShoppingList> ShoppingList { get; set; }
+        public DbSet<MiscItem> MiscItems { get; set; }  
     }
 }

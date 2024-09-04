@@ -4,14 +4,14 @@
 @using Weekly_Shopping.Data
 
 <MudContainer Fixed="true">
-    <MudList Class="d-flex flex-column flex-wrap align-content-start" Style="max-height:90vh; max-width:100vw;">
+    <MudGrid>
         @foreach (var ingredient in _ingredients)
         {
-            <MudListItem Style="width:20%">
+            <MudItem md="3" xs="12">
                 <MudCheckBox Size="Size.Large" Value="@ingredient.Picked" T="bool" ValueChanged="@((value) => ingredientChanged(ingredient, value))" Label="@ingredient.ToString()"></MudCheckBox>
-            </MudListItem>    
+            </MudItem>    
         }
-    </MudList>
+    </MudGrid>
 </MudContainer>
 
 @code{
