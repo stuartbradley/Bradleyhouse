@@ -4,14 +4,21 @@
 @using Weekly_Shopping.Data
 
 <MudContainer Fixed="true">
+    <MudCheckBox Size="Size.Large" T="bool" ValueChanged="() => _hidePickedItems = !_hidePickedItems" Label="Hide Picked Items"></MudCheckBox>
     <MudGrid>
         @foreach (var ingredient in _ingredients)
         {
+            if (_hidePickedItems)
+                if (ingredient.Picked)
+                    continue;
+
             <MudItem md="3" xs="12">
                 <MudCheckBox Size="Size.Large" Value="@ingredient.Picked" T="bool" ValueChanged="@((value) => ingredientChanged(ingredient, value))" Label="@ingredient.ToString()"></MudCheckBox>
-            </MudItem>    
+            </MudItem>
         }
     </MudGrid>
+
+
 </MudContainer>
 
 @code{
@@ -21,7 +28,7 @@
     [Parameter]
     public int ShoppingListId { get; set; } = 0;
     private List<ShoppingListIngredient> _ingredients = new();
-
+    private bool _hidePickedItems;
     protected async override Task OnInitializedAsync()
     {
         var shoppingList = await MealPlannerContext.ShoppingList.Include(x => x.Ingredients).ThenInclude(x => x.Food).SingleAsync(x => x.Id == ShoppingListId);
@@ -32,7 +39,8 @@
     {
         ingredient.Picked = value;
         MealPlannerContext.Update(ingredient);
-        await MealPlannerContext.SaveChangesAsync(value);
+        MealPlannerContext.SaveChanges();
+        StateHasChanged();   
     }
 
 }
