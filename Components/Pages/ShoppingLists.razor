@@ -1,18 +1,20 @@
 ﻿@page "/ShoppingLists"
+@using BradleyHouse.Components.Dialogs.Models.Food
 @using BradleyHouse.Data.Models.MealPrep
+@using BradleyHouse.Data.ViewModels
 @using Microsoft.EntityFrameworkCore
 @using Weekly_Shopping.Data
 
 <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
         <MudGrid Spacing="2">
 
-        @foreach(var list in _shoppingLists.OrderByDescending(x => x.DateCreated))
+        @foreach(var list in _shoppingLists)
         {
-        <MudItem Class="d-flex justify-center">
-            <MudCard>
+            <MudItem md="3" xs="12" >
+                <MudCard Style="height:100%">
                 <MudCardHeader>
                     <CardHeaderContent>
-                            <MudText Align="Align.Center" Typo="Typo.body1">@list.DateCreated.ToShortDateString()</MudText>
+                            <MudText Align="Align.Center" Typo="Typo.body1">@list.Title</MudText>
                     </CardHeaderContent>
                         <CardHeaderActions>
                             <MudIconButton Icon="@Icons.Material.Filled.ArrowForwardIos" OnClick="() => shoppingListSelected(list.Id)" Color="Color.Primary" Size="Size.Large" />
@@ -22,7 +24,7 @@
                 <MudList>
                 @foreach(var meal in list.Meals)
                 {
-                    <MudListItem Text="@GetMealName(meal.MealId)" Icon="@Icons.Custom.Uncategorized.FoodApple" />
+                    <MudListItem Text="@meal.Name" Icon="@Icons.Custom.Uncategorized.FoodApple" OnClick="() => ShowIngredientList(meal.Id)" />
                 }
                 </MudList>
             </MudCardContent>
@@ -37,15 +39,34 @@
     [Inject]
     MealPlannerContext MealPlannerContext{ get; set; }
 
-    private List<ShoppingList> _shoppingLists = new();
+    private List<ShoppingListViewModel> _shoppingLists = new();
 
     [Inject]
     NavigationManager Navigation { get; set; }
 
+    [Inject]
+    IDialogService DialogService{ get; set; }
 
     protected async override Task OnInitializedAsync()
     {
-        _shoppingLists = await MealPlannerContext.ShoppingList.Include(x => x.Meals).ToListAsync();
+        var allShoppingLists = await MealPlannerContext.ShoppingList.Include(x => x.Meals).ToListAsync();
+
+        foreach(var list in allShoppingLists)
+        {
+            var shoppingList = new ShoppingListViewModel();
+            shoppingList.Id = list.Id;
+            shoppingList.Title = list.DateCreated.ToShortDateString();
+            foreach(var meal in list.Meals)
+            {
+                var selectedMeal = await MealPlannerContext.Meals.SingleAsync(x => x.Id == meal.MealId);
+                shoppingList.Meals.Add(new ShoppingListMealViewModel()
+                {
+                    Id = meal.MealId,
+                    Name = selectedMeal.Name,            
+                });
+            }
+            _shoppingLists.Add(shoppingList);
+        }
     }
 
     private void shoppingListSelected(int id)
@@ -53,9 +74,13 @@
         Navigation.NavigateTo($"ShoppingList/{id}");
     }
 
-    private string GetMealName(int id)
+    private async Task ShowIngredientList(int id)
     {
-        return MealPlannerContext.Meals.Single(x => x.Id == id).Name;
+        var meal = await MealPlannerContext.Meals.Include(x => x.Ingredients).ThenInclude(x => x.Food).SingleAsync(x => x.Id == id);
+        var parameters = new DialogParameters<ViewIngredients> { { x => x.Ingredients, meal.Ingredients }, { x => x.MealName, meal.Name } };
+
+        DialogOptions dialogOptions = new DialogOptions() { CloseOnEscapeKey = true, Position = DialogPosition.Center, MaxWidth = MaxWidth.Medium, FullWidth = true };
+        var dialog = await DialogService.ShowAsync<ViewIngredients>("Ingredients", parameters, dialogOptions);
     }
 
 
