@@ -17,7 +17,9 @@
                             <MudText Align="Align.Center" Typo="Typo.body1">@list.Title</MudText>
                     </CardHeaderContent>
                         <CardHeaderActions>
-                            <MudIconButton Icon="@Icons.Material.Filled.ArrowForwardIos" OnClick="() => shoppingListSelected(list.Id)" Color="Color.Primary" Size="Size.Large" />
+                            <MudIconButton Icon="@Icons.Material.Filled.ArrowForwardIos" OnClick="() => shoppingListSelected(list.Id)" Color="Color.Primary" Size="Size.Large" /> 
+                            <MudIconButton Icon="@Icons.Material.Filled.DeleteOutline" OnClick="() => deleteShoppingList(list.Id)" Color="Color.Primary" Size="Size.Large" />
+
                         </CardHeaderActions>
                 </MudCardHeader>
                 <MudCardContent>
@@ -49,7 +51,7 @@
 
     protected async override Task OnInitializedAsync()
     {
-        var allShoppingLists = await MealPlannerContext.ShoppingList.Include(x => x.Meals).ToListAsync();
+        var allShoppingLists = await MealPlannerContext.ShoppingList.Include(x => x.Meals).Include(x => x.Ingredients).ToListAsync();
 
         foreach(var list in allShoppingLists)
         {
@@ -83,5 +85,17 @@
         var dialog = await DialogService.ShowAsync<ViewIngredients>("Ingredients", parameters, dialogOptions);
     }
 
+    private async Task deleteShoppingList(int id)
+    {
+        var shoppingList = await MealPlannerContext.ShoppingList.Include(x => x.Meals).Include(x => x.Ingredients).SingleAsync(x => x.Id == id);
+        MealPlannerContext.ShoppingListIngredients.RemoveRange(shoppingList.Ingredients);
+        MealPlannerContext.ShoppingListMeals.RemoveRange(shoppingList.Meals);
 
-}
+        MealPlannerContext.ShoppingList.Remove(shoppingList);
+
+        await MealPlannerContext.SaveChangesAsync();
+        _shoppingLists.RemoveAll(x => x.Id == shoppingList.Id);
+    }
+
+
+} 
