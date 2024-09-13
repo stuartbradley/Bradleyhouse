@@ -51,7 +51,7 @@
 
     protected async override Task OnInitializedAsync()
     {
-        var allShoppingLists = await MealPlannerContext.ShoppingList.Include(x => x.Meals).Include(x => x.Ingredients).ToListAsync();
+        var allShoppingLists = await MealPlannerContext.ShoppingList.Include(x => x.Meals).Include(x => x.Ingredients).Take(4).ToListAsync();
 
         foreach(var list in allShoppingLists)
         {
