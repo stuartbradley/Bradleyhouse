@@ -8,12 +8,14 @@
             @foreach (var ingredient in Ingredients)
             {
 
-                <MudItem md="6" sm="12" lg="4" Class="d-flex align-content-center mb-3">
-                    <MudIcon Class="mr-3" Size="Size.Medium" Icon="@Icons.Custom.Uncategorized.FoodApple" Title="Ingredient" />
+                <MudItem md="6" xs="12" lg="4" Class="d-flex align-content-center mb-3">
+
+                    <MudIcon Class="mr-3" Size="Size.Medium" Icon="@Icons.Material.Filled.EmojiFoodBeverage" Title="Ingredient"/>
                     <div class="align-self-center">
                     @ingredient.ToString();
                     </div>
-                </MudItem>
+
+                    </MudItem>
             }
         </MudGrid>
     </DialogContent>
