@@ -1,15 +1,21 @@
 ﻿@using BradleyHouse.Data.Models.MealPrep
-<MudDialog Style="background-color:#D3D3D3">
+<MudDialog  Style="background-color:#D3D3D3;height:fit-content;overflow-y:hidden" >
     <TitleContent>
         @MealName
     </TitleContent>
-    <DialogContent >
-        <MudList>
+    <DialogContent>
+        <MudGrid>
             @foreach (var ingredient in Ingredients)
             {
-                <MudListItem Text="@ingredient.ToString()" Icon="@Icons.Custom.Uncategorized.FoodApple" />
+
+                <MudItem md="6" sm="12" lg="4" Class="d-flex align-content-center mb-3">
+                    <MudIcon Class="mr-3" Size="Size.Medium" Icon="@Icons.Custom.Uncategorized.FoodApple" Title="Ingredient" />
+                    <div class="align-self-center">
+                    @ingredient.ToString();
+                    </div>
+                </MudItem>
             }
-        </MudList>
+        </MudGrid>
     </DialogContent>
 </MudDialog>
 @code{
