@@ -7,5 +7,6 @@
         public List<Ingredient> Ingredients { get; set; } = new();
         public int StockCount { get; set; }
         public int NumberOfServings { get; set; } = 2;
+        public string RecipeUrl { get; set; }
     }
 }

@@ -23,10 +23,10 @@
                         </CardHeaderActions>
                 </MudCardHeader>
                 <MudCardContent>
-                <MudList>
+                <MudList T="string">
                 @foreach(var meal in list.Meals)
                 {
-                    <MudListItem Text="@meal.Name" Icon="@Icons.Custom.Uncategorized.FoodApple" OnClick="() => ShowIngredientList(meal.Id)" />
+                    <MudListItem T="string" Text="@meal.Name" Icon="@Icons.Custom.Uncategorized.FoodApple" OnClick="() => ShowIngredientList(meal.Id)" />
                 }
                 </MudList>
             </MudCardContent>

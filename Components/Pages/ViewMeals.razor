@@ -37,18 +37,18 @@ else
                                 {
                                    
                                     <MudText Align="Align.Center" Typo="Typo.h6">@meal.Name (@meal.StockCount)</MudText>
-                                    <MudCheckBox @bind-Checked="@meal.Selected" />
+                                    <MudCheckBox T="bool" @bind-Checked="@meal.Selected" />
                                 }
                                 else
                                 {
                                     <div class="d-flex justify-center align-center gap-2">
                                         <MudText Align="Align.Center" Typo="Typo.h6">@meal.Name</MudText>
-                                        <MudCheckBox @bind-Checked="@meal.Selected" />
+                                        <MudCheckBox T="bool" @bind-Checked="@meal.Selected" />
                                     </div>
 
                                 }
                             </CardHeaderContent>
-                        </MudCardHeader>
+                     </MudCardHeader>
                         <MudCardContent>
                             <MudCardActions Class="d-flex justify-space-between">
                                 <MudIconButton OnClick="() => ViewModel.deleteMeal(meal.Id)" Icon="@Icons.Material.Filled.Delete" Color="Color.Default" />
@@ -77,4 +77,4 @@ else
         var dialog = await DialogService.ShowAsync<ViewIngredients>("Ingredients",parameters ,dialogOptions);
 
     }
-}
+}   

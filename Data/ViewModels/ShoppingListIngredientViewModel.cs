@@ -15,7 +15,7 @@ namespace BradleyHouse.Data.ViewModels
             if (Amount == 1 && Measurement == "")
                 return $"{Food.Name}";
             else
-                return $"{Food.Name} - {Amount.ToString("0.#")}{Measurement}";
+                return $"{Food.Name} - {Amount:0.#}{Measurement}";
         }
     }
 }

@@ -9,9 +9,12 @@
     <MudItem xs="12" sm="6" md="4">
         <MudTextField Label="Meal Name" Variant="Variant.Outlined" @bind-Value="_mealName"></MudTextField>
     </MudItem>
+    <MudItem>
+        <MudTextField Label="Recipe Url" Variant="Variant.Outlined" @bind-Value="_recipeUrl"></MudTextField>
+    </MudItem>
     <MudGrid>
     <MudItem xs="12" sm="6" md="2">
-        <MudAutocomplete @ref="foodMAC" T="string" Label="Food" SearchFunc="foodSearch"
+        <MudAutocomplete @ref="foodMAC" T="string" Label="Food" SearchFunc="@foodSearch"
                             ResetValueOnEmptyText="@false" 
                             CoerceText="@false" CoerceValue="@true" @bind-Value="_selectedFood" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
 
@@ -28,11 +31,11 @@
     <MudItem md="6">
         <MudButton Class="mt-4 mb-4" Color="Color.Primary" Variant="Variant.Filled" OnClick="addIngredient">Add Ingredient</MudButton>
     </MudItem>
-        <MudList>
+    <MudList T="string">
             <h2>Ingredients</h2>
             @foreach(var ingredient in _ingredients)
             {
-            <MudListItem>@ingredient.ToString()<MudFab Style="margin-left:20px" StartIcon="@Icons.Material.Filled.Remove" Size="Size.Small" OnClick="() => remove(ingredient)" /></MudListItem>
+            <MudListItem T="string">ingredient.ToString()<MudFab Style="margin-left:20px" StartIcon="@Icons.Material.Filled.Remove" Size="Size.Small" OnClick="() => remove(ingredient)" /></MudListItem>
             }
         </MudList>
     <MudButton Class="mt-4" Color="Color.Primary" Variant="Variant.Filled" OnClick="submit">submit</MudButton>
@@ -50,6 +53,7 @@
     string _mealName = "";
     private string _selectedFood = "";
     private string _selectedMeasurement = "";
+    private string _recipeUrl = "";
     private int _amount = 0;
     private string[] _measurements =
     {
@@ -131,6 +135,7 @@
         {
             Ingredients = _ingredients,
             Name = _mealName,
+            RecipeUrl = _recipeUrl
         };
 
         MealPlannerContext.Add(meal);
