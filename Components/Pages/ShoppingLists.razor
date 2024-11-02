@@ -19,7 +19,6 @@
                         <CardHeaderActions>
                             <MudIconButton Icon="@Icons.Material.Filled.ArrowForwardIos" OnClick="() => shoppingListSelected(list.Id)" Color="Color.Primary" Size="Size.Large" /> 
                             <MudIconButton Icon="@Icons.Material.Filled.DeleteOutline" OnClick="() => deleteShoppingList(list.Id)" Color="Color.Primary" Size="Size.Large" />
-
                         </CardHeaderActions>
                 </MudCardHeader>
                 <MudCardContent>
@@ -62,10 +61,10 @@
             {
                 var selectedMeal = await MealPlannerContext.Meals.SingleAsync(x => x.Id == meal.MealId);
                 shoppingList.Meals.Add(new ShoppingListMealViewModel()
-                {
-                    Id = meal.MealId,
-                    Name = selectedMeal.Name,            
-                });
+                    {
+                        Id = meal.MealId,
+                        Name = selectedMeal.Name,
+                    });
             }
             _shoppingLists.Add(shoppingList);
         }
@@ -79,7 +78,7 @@
     private async Task ShowIngredientList(int id)
     {
         var meal = await MealPlannerContext.Meals.Include(x => x.Ingredients).ThenInclude(x => x.Food).SingleAsync(x => x.Id == id);
-        var parameters = new DialogParameters<ViewIngredients> { { x => x.Ingredients, meal.Ingredients }, { x => x.MealName, meal.Name } };
+        var parameters = new DialogParameters<ViewIngredients> { { x => x.Ingredients, meal.Ingredients }, { x => x.MealName, meal.Name }, { x => x.RecipeURL, meal.RecipeUrl } };
 
         DialogOptions dialogOptions = new DialogOptions() { CloseOnEscapeKey = true, Position = DialogPosition.Center, MaxWidth = MaxWidth.Medium, FullWidth = true };
         var dialog = await DialogService.ShowAsync<ViewIngredients>("Ingredients", parameters, dialogOptions);
