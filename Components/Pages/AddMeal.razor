@@ -35,7 +35,7 @@
             <h2>Ingredients</h2>
             @foreach(var ingredient in _ingredients)
             {
-            <MudListItem T="string">ingredient.ToString()<MudFab Style="margin-left:20px" StartIcon="@Icons.Material.Filled.Remove" Size="Size.Small" OnClick="() => remove(ingredient)" /></MudListItem>
+            <MudListItem T="string">@ingredient.ToString()<MudFab Style="margin-left:20px" StartIcon="@Icons.Material.Filled.Remove" Size="Size.Small" OnClick="() => remove(ingredient)" /></MudListItem>
             }
         </MudList>
     <MudButton Class="mt-4" Color="Color.Primary" Variant="Variant.Filled" OnClick="submit">submit</MudButton>
